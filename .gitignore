@@ -20,3 +20,6 @@ report/*_files/
 # OS / editor noise
 .DS_Store
 Thumbs.db
+
+# targets config side-effect of report rendering
+_targets.yaml
