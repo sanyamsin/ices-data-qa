@@ -1,7 +1,8 @@
 Package: icesdataqa
 Title: Data Quality Pipeline for ICES Stock Assessment Graphs Data
 Version: 0.1.0
-Authors@R: person("Serge-Alain", "Nyamsin", role = c("aut", "cre"))
+Authors@R: person("Serge-Alain", "Nyamsin", email = "sergealain_nyamsin@yahoo.fr",
+                  role = c("aut", "cre"))
 Description: This DESCRIPTION file is a dependency manifest for the
     ices-data-qa analysis project. It is used by
     r-lib/actions/setup-r-dependencies on CI; the project itself is an
