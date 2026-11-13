@@ -19,6 +19,11 @@ jobs:
           r-version: renv
           use-public-rspm: true
 
+      - name: Install system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglpk-dev
+
       - uses: r-lib/actions/setup-renv@v2
 
       - name: Run unit tests
