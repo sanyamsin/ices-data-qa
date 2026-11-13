@@ -4,9 +4,7 @@
 # Inspect:   targets::tar_visnetwork()   targets::tar_read(qa_all)
 
 library(targets)
-
-library(targets)
-library(tarchetypes)   # fournit tar_cue_age()
+library(tarchetypes)   # provides tar_cue_age()
 tar_source("R")
 
 tar_option_set(
@@ -97,15 +95,17 @@ list(
   ),
   
   tar_target(qa_overview, summarise_qa(qa_all)),
-  tar_target(qa_status, overall_status(qa_all))
-)
-
-# 6. Report ----------------------------------------------------------------
-tar_target(
-  report,
-  {
-    quarto::quarto_render("report/qa-report.qmd")
-    "report/qa-report.html"
-  },
-  format = "file"
+  tar_target(qa_status, overall_status(qa_all)),
+  
+  # 6. Report ----------------------------------------------------------------
+  tar_target(
+    report,
+    {
+      # Naming the targets here declares them as dependencies of the report
+      list(qa_all, qa_overview, qa_status, summary_tbl)
+      quarto::quarto_render("report/qa-report.qmd")
+      "report/qa-report.html"
+    },
+    format = "file"
+  )
 )

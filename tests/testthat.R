@@ -3,4 +3,4 @@
 
 invisible(lapply(list.files("R", full.names = TRUE), source))
 
-testthat::test_dir("tests/testthat", reporter = "summary", stop_on_failure = FALSE)
+testthat::test_dir("tests/testthat", reporter = "summary", stop_on_failure = TRUE)
