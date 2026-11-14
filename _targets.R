@@ -72,7 +72,12 @@ list(
         Catches = "numeric|logical"
       ),
       key_cols = c("AssessmentKey", "Year"),
-      na_cols = c("F", "SSB", "Catches")
+      na_cols = c("F", "SSB", "Catches"),
+      # Assess missingness per stock and within the reported period: a
+      # stock that never reports a quantity, or reports it over a shorter
+      # period than its catch history, is not a series with gaps.
+      group_col = "AssessmentKey",
+      order_col = "Year"
     )
   ),
   
