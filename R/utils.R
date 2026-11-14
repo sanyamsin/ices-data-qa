@@ -4,7 +4,7 @@
 # with a standard schema. Standardising the output of checks makes them
 # trivial to combine, summarise, test and render in reports.
 
-#' Columns present in every QA result
+# Columns present in every QA result
 QA_RESULT_COLS <- c(
   "category", "check", "column", "n_issues", "n_rows",
   "share_issues", "status", "detail"
@@ -19,6 +19,9 @@ QA_RESULT_COLS <- c(
 #' @param n_rows Number of rows the check was applied to.
 #' @param status One of "pass", "warn" or "fail".
 #' @param detail Human-readable explanation, empty string when passing.
+#' @return A one-row tibble with the columns `category`, `check`, `column`,
+#'   `n_issues`, `n_rows`, `share_issues`, `status` and `detail`.
+#' @export
 new_qa_result <- function(category,
                           check,
                           column = NA_character_,
@@ -48,6 +51,11 @@ new_qa_result <- function(category,
 }
 
 #' Combine QA results into a single table
+#'
+#' @param ... QA results, or lists of QA results. `NULL` and empty results
+#'   are dropped.
+#' @return A QA result table, with zero rows when nothing was supplied.
+#' @export
 bind_qa <- function(...) {
   results <- purrr::list_flatten(list(...))
   results <- purrr::keep(results, \(x) !is.null(x) && nrow(x) > 0)
@@ -62,6 +70,11 @@ bind_qa <- function(...) {
 }
 
 #' Worst status across a QA result table
+#'
+#' @param results A QA result table.
+#' @return `"fail"`, `"warn"` or `"pass"`.
+#' @export
+
 overall_status <- function(results) {
   if (nrow(results) == 0) return("pass")
   if (any(results$status == "fail")) return("fail")
@@ -70,6 +83,11 @@ overall_status <- function(results) {
 }
 
 #' Summarise QA results by category and status
+#'
+#' @param results A QA result table.
+#' @return A tibble with one row per category and one column per status.
+#' @export
+
 summarise_qa <- function(results) {
   results |>
     dplyr::count(.data$category, .data$status, name = "n_checks") |>
@@ -81,6 +99,7 @@ summarise_qa <- function(results) {
 }
 
 #' Status derived from a share of issues against thresholds
+#' @noRd
 status_from_share <- function(share, warn_at, fail_at) {
   stopifnot(share >= 0, share <= 1, warn_at <= fail_at)
   if (share >= fail_at) return("fail")
