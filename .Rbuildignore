@@ -2,3 +2,10 @@
 ^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^_targets\.R$
+^_targets$
+^_targets\.yaml$
+^report$
+^LICENSE\.md$
+^\.Rprofile$
