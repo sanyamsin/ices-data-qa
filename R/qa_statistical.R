@@ -8,6 +8,7 @@
 #' @param df A data frame.
 #' @param col Numeric column to check.
 #' @param min,max Allowed bounds (inclusive). Use Inf to leave open.
+#' @export
 check_range <- function(df, col, min = -Inf, max = Inf) {
   stopifnot(is.data.frame(df), col %in% names(df), is.numeric(df[[col]]))
   
@@ -40,7 +41,7 @@ check_range <- function(df, col, min = -Inf, max = Inf) {
 
 #' Flag statistical outliers with a robust IQR rule
 #'
-#' Values outside [Q1 - k*IQR, Q3 + k*IQR] are flagged. With k = 3 the
+#' Values outside `[Q1 - k*IQR, Q3 + k*IQR]` are flagged. With k = 3 the
 #' rule corresponds to "far out" values and stays robust for the skewed
 #' distributions typical of catch and biomass series.
 #'
@@ -48,6 +49,7 @@ check_range <- function(df, col, min = -Inf, max = Inf) {
 #' @param col Numeric column to check.
 #' @param k IQR multiplier (default 3).
 #' @param warn_at,fail_at Share-of-outlier thresholds.
+#' @export
 check_outliers_iqr <- function(df, col, k = 3, warn_at = 0.01, fail_at = 0.10) {
   stopifnot(is.data.frame(df), col %in% names(df), is.numeric(df[[col]]), k > 0)
   
@@ -108,6 +110,10 @@ check_outliers_iqr <- function(df, col, k = 3, warn_at = 0.01, fail_at = 0.10) {
 #'
 #' Catches, biomass and fishing mortality are non-negative quantities;
 #' a negative value always signals a data or unit problem.
+#' 
+#' @param df A data frame
+#' @param cols columns to check.
+#' @export
 check_non_negative <- function(df, cols) {
   stopifnot(is.data.frame(df), all(cols %in% names(df)))
   
@@ -139,6 +145,7 @@ check_non_negative <- function(df, cols) {
 #' @param df A data frame.
 #' @param col Numeric column to check.
 #' @param max_run Longest acceptable run of identical values.
+#' @export
 check_plateau <- function(df, col, max_run = 5) {
   stopifnot(is.data.frame(df), col %in% names(df), is.numeric(df[[col]]), max_run >= 1)
   
@@ -176,6 +183,7 @@ check_plateau <- function(df, col, max_run = 5) {
 #' @param min_n Minimum number of observed values for a series to be
 #'   assessed.
 #' @param warn_at,fail_at Share-of-outlier thresholds.
+#' @export
 check_outliers_iqr_by_group <- function(df, col, group_col, k = 3, min_n = 8,
                                         warn_at = 0.01, fail_at = 0.10) {
   stopifnot(
@@ -238,6 +246,7 @@ check_outliers_iqr_by_group <- function(df, col, group_col, k = 3, min_n = 8,
 #' @param col Numeric column to check.
 #' @param group_col Column identifying independent series (e.g. a stock).
 #' @param max_run Longest acceptable run of identical values.
+#' @export
 check_plateau_by_group <- function(df, col, group_col, max_run = 5) {
   stopifnot(
     is.data.frame(df), all(c(col, group_col) %in% names(df)),
@@ -273,6 +282,7 @@ check_plateau_by_group <- function(df, col, group_col, max_run = 5) {
 #' @param group_col Column identifying independent series. When present,
 #'   outliers and plateaus are assessed per series; otherwise the checks
 #'   fall back to the pooled table.
+#' @export
 run_summary_statistical_qa <- function(df, group_col = "AssessmentKey") {
   numeric_cols <- intersect(
     c("F", "SSB", "Recruitment", "Catches", "Landings", "Discards",

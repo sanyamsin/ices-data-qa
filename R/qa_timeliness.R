@@ -10,6 +10,7 @@
 #'   the current calendar year).
 #' @param max_lag Largest acceptable gap between the latest data year
 #'   and `reference_year` (assessment series typically lag by 1-2 years).
+#' @export
 check_recency <- function(df,
                           year_col,
                           reference_year = as.integer(format(Sys.Date(), "%Y")),
@@ -53,6 +54,7 @@ check_recency <- function(df,
 #' @param df A data frame.
 #' @param year_col Column holding the data year.
 #' @param allow_gaps Number of missing intermediate years tolerated.
+#' @export
 check_year_continuity <- function(df, year_col, allow_gaps = 0) {
   stopifnot(is.data.frame(df), year_col %in% names(df), allow_gaps >= 0)
   
@@ -97,6 +99,7 @@ check_year_continuity <- function(df, year_col, allow_gaps = 0) {
 #' @param group_col Column identifying independent series.
 #' @param min_share Minimum share of groups that must pass the
 #'   continuity check for the overall result to pass.
+#' @export
 check_group_continuity <- function(df, year_col, group_col, min_share = 0.90) {
   stopifnot(is.data.frame(df), all(c(year_col, group_col) %in% names(df)))
   

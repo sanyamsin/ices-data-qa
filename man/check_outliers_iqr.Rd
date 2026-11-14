@@ -16,7 +16,7 @@ check_outliers_iqr(df, col, k = 3, warn_at = 0.01, fail_at = 0.1)
 \item{warn_at, fail_at}{Share-of-outlier thresholds.}
 }
 \description{
-Values outside \link[=Q1 - k*IQR, Q3 + k*IQR]{Q1 - k\emph{IQR, Q3 + k}IQR} are flagged. With k = 3 the
+Values outside \verb{[Q1 - k*IQR, Q3 + k*IQR]} are flagged. With k = 3 the
 rule corresponds to "far out" values and stays robust for the skewed
 distributions typical of catch and biomass series.
 }

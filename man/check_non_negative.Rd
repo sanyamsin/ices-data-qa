@@ -6,6 +6,11 @@
 \usage{
 check_non_negative(df, cols)
 }
+\arguments{
+\item{df}{A data frame}
+
+\item{cols}{columns to check.}
+}
 \description{
 Catches, biomass and fishing mortality are non-negative quantities;
 a negative value always signals a data or unit problem.

@@ -9,6 +9,7 @@
 #' @param required Named character vector: names are expected columns,
 #'   values are allowed types ("numeric", "integer", "character", ...).
 #'   Use NA to only check presence.
+#' @export
 check_schema <- function(df, required) {
   stopifnot(is.data.frame(df), !is.null(names(required)))
   
@@ -53,6 +54,7 @@ check_schema <- function(df, required) {
 #' @param df A data frame.
 #' @param cols Columns to check.
 #' @param warn_at,fail_at Share-of-NA thresholds.
+#' @export
 check_missing <- function(df, cols, warn_at = 0.05, fail_at = 0.20) {
   stopifnot(is.data.frame(df), all(cols %in% names(df)))
   
@@ -82,6 +84,7 @@ check_missing <- function(df, cols, warn_at = 0.05, fail_at = 0.20) {
 #'
 #' @param df A data frame.
 #' @param key_cols Columns that together should identify a row.
+#' @export
 check_key_uniqueness <- function(df, key_cols) {
   stopifnot(is.data.frame(df), all(key_cols %in% names(df)))
   
@@ -127,6 +130,7 @@ check_key_uniqueness <- function(df, key_cols) {
 #'   the last reported value of a series are set apart from gaps. When
 #'   `NULL`, every missing value in a reporting series counts as a gap.
 #' @param warn_at,fail_at Share-of-NA thresholds, applied to the gaps.
+#' @export
 check_missing_by_group <- function(df, cols, group_col, order_col = NULL,
                                    warn_at = 0.05, fail_at = 0.20) {
   stopifnot(
@@ -212,6 +216,7 @@ check_missing_by_group <- function(df, cols, group_col, order_col = NULL,
 #'   [check_missing_by_group()] instead of on the pooled table.
 #' @param order_col Optional time column, passed on to
 #'   [check_missing_by_group()].
+#' @export
 run_structural_qa <- function(df, required, key_cols,
                               na_cols = names(required), group_col = NULL,
                               order_col = NULL) {
