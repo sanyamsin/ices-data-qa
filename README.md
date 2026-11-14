@@ -8,24 +8,43 @@ tables, then runs a three-tier QA framework:
 
 | Tier | Question | Checks |
 |---|---|---|
-| **Structural** | Can the data be used at all? | schema conformance, missing values, key uniqueness |
-| **Statistical** | Are the values plausible? | ranges, IQR outliers, non-negativity, plateaus |
+| **Structural** | Can the data be used at all? | schema conformance, key uniqueness, missing values per stock |
+| **Statistical** | Are the values plausible? | non-negativity, ranges, IQR outliers and plateaus per stock |
 | **Timeliness** | Is the data fit for the advice cycle? | recency, yearly continuity per stock |
 
 Every check returns a standardised result row (`category`, `check`,
 `column`, `n_issues`, `share_issues`, `status`, `detail`), which makes the
 framework easy to extend, test and report.
 
-## Findings from the first run
+## Findings
 
-A sample of 10 stocks from the 2025 assessment year (171 stocks) already
-surfaced real data characteristics:
+On a reproducible sample of 10 stocks from the 2025 assessment year
+(171 stocks), the main result is about the checks as much as the data:
+**pooling stocks makes sound data look broken.**
 
-- ~51% missing values in F, SSB and Catches series — driven by
-  data-limited stocks (e.g. sandeel, dab, eel) for which full analytical
-  assessment outputs are not published every year;
-- Outlier flags on pooled F and Discards values, highlighting that
-  cross-stock pooling mixes very different scales (see roadmap).
+| Check on F | Stocks pooled | Per stock |
+|---|---|---|
+| Missing values | 51.9% (fail) | 0.4% (pass) |
+| IQR outliers | 34 values (fail) | 1 value (pass) |
+
+Of the 248 missing F values, only one is a gap inside a reported series.
+The others are structure:
+
+- 3 stocks do not report F at all (`san.sa.7r`, `bss.27.8c9a`,
+  `ele.2737.nea`);
+- 77 values precede the first reported year: the catch history is longer
+  than the assessment period (`spr.27.7de` has catches from 1988 and F
+  from 2013);
+- 5 values are the latest year of the series, which has no F yet.
+
+The checks therefore work stock by stock, and count separately the stocks
+that do not report a variable, the years outside its reported period, and
+the gaps inside it. Only the gaps drive the status; the rest is stated in
+the `detail` column of each result.
+
+Stocks also differ in what they report as removals: some fill `Catches`,
+others only `Landings`. A check on a single column is misleading (see
+roadmap).
 
 ## Quick start
 
@@ -85,7 +104,8 @@ ices-data-qa/
 
 ## Roadmap
 
-- [ ] Group-aware statistical checks (per-stock outlier detection)
+- [x] Group-aware checks (per-stock missing values, outliers, plateaus)
+- [ ] Removals check that accepts either `Catches` or `Landings`
 - [ ] Extend coverage to the ICES DATRAS (trawl survey) web services
 - [ ] Publish QA results as machine-readable JSON for downstream dashboards
 - [ ] Wrap the QA framework as an R package with pkgdown documentation
