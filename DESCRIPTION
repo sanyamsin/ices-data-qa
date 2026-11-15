@@ -1,28 +1,40 @@
 Package: icesdataqa
-Title: Data Quality Pipeline for ICES Stock Assessment Graphs Data
-Version: 0.1.0
+Title: Data Quality Checks for ICES Stock Assessment Graphs Data
+Version: 0.2.0
 Authors@R: person("Serge-Alain", "Nyamsin", email = "sergealain_nyamsin@yahoo.fr",
                   role = c("aut", "cre"))
-Description: This DESCRIPTION file is a dependency manifest for the
-    ices-data-qa analysis project. It is used by
-    r-lib/actions/setup-r-dependencies on CI; the project itself is an
-    analysis pipeline (targets), not an installable package.
-License: MIT
+Description: A small framework of structural, statistical and timeliness
+    checks for the data served by the ICES Stock Assessment Graphs (SAG) web
+    services. Every check returns a standardised result row, and checks are
+    run stock by stock so that stocks which do not report a variable are not
+    mistaken for gaps. The repository also holds a 'targets' pipeline and a
+    'Quarto' report built on these functions. Independent project, not an
+    official ICES product.
+License: MIT + file LICENSE
+URL: https://github.com/sanyamsin/ices-data-qa
+BugReports: https://github.com/sanyamsin/ices-data-qa/issues
 Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
 Imports:
     cli,
     dplyr,
-    ggplot2,
     httr2,
     jsonlite,
+    purrr (>= 1.0.0),
+    rlang,
+    stats,
+    tibble,
+    tidyr
+Suggests:
+    ggplot2,
     knitr,
-    purrr,
     quarto,
     rmarkdown,
     scales,
     tarchetypes,
     targets,
-    testthat (>= 3.0.0),
-    tibble,
-    tidyr
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1

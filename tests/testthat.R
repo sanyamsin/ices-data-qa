@@ -1,6 +1,7 @@
-# testthat entry point: source the project functions, then run the suite.
-# Run from the project root with: source("tests/testthat.R")
+# Standard testthat entry point, used by R CMD check.
+# During development, run the suite with devtools::test().
 
-invisible(lapply(list.files("R", full.names = TRUE), source))
+library(testthat)
+library(icesdataqa)
 
-testthat::test_dir("tests/testthat", reporter = "summary", stop_on_failure = TRUE)
+test_check("icesdataqa")

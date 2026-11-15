@@ -12,6 +12,7 @@ SAG_BASE_URL <- "https://sag.ices.dk/SAG_API/api"
 #'
 #' @param endpoint Character scalar, e.g. "StockList".
 #' @param query Named list of query parameters.
+#' @noRd
 sag_get <- function(endpoint, query = list()) {
   req <- httr2::request(paste(SAG_BASE_URL, endpoint, sep = "/")) |>
     httr2::req_url_query(!!!query) |>
@@ -44,6 +45,7 @@ sag_get <- function(endpoint, query = list()) {
 #' are entirely NULL (the API returns JSON null for fields not populated
 #' in a given assessment, which jsonlite keeps as NULLs and tibble
 #' rejects). Works on both data frames and plain lists.
+#' @noRd
 sag_to_tibble <- function(x) {
   if (length(x) == 0) {
     return(tibble::tibble())
@@ -55,6 +57,7 @@ sag_to_tibble <- function(x) {
 #' Fetch the list of assessed stocks for one or more assessment years
 #'
 #' @param years Integer vector of assessment years.
+#' @export
 fetch_stock_list <- function(years) {
   stopifnot(is.numeric(years), length(years) >= 1, all(years >= 1900))
   
@@ -77,6 +80,7 @@ fetch_stock_list <- function(years) {
 #' tagging it with its assessment key.
 #'
 #' @param assessment_keys Integer vector of SAG assessment keys.
+#' @export
 fetch_summary_table <- function(assessment_keys) {
   stopifnot(is.numeric(assessment_keys), length(assessment_keys) >= 1)
   
@@ -100,6 +104,7 @@ fetch_summary_table <- function(assessment_keys) {
 #' Fetch biological reference points for one or more assessments
 #'
 #' @param assessment_keys Integer vector of SAG assessment keys.
+#' @export
 fetch_reference_points <- function(assessment_keys) {
   stopifnot(is.numeric(assessment_keys), length(assessment_keys) >= 1)
   
